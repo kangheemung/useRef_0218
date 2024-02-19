@@ -1,32 +1,17 @@
-import React,{ useEffect, useRef } from 'react';
+import { useEffect, useId,useRef } from 'react';
 import MyComponent from './components/MyComponent'; // Update this line with the correct path
 import TimerComponent from './components/TimerComponent';
 import Ref from './components/Ref';
 import Ref_Var from './components/Ref_Var';
 import Count from './components/Count';
+import InputRef from './components/InputRef';
 
-const App = () => {
-  const inputRef = useRef();
-//useRefを使用してDOMに接近する。
-  useEffect(() => {
-   //console.log(inputRef);
-   inputRef.current.focus();
-  },[]);
-
-  const login =()=>{
-    alert(`환영합니다${inputRef.current.value}`);
-    inputRef.current.focus();
-  };
-
+function App() {
   return (
     <div className="App">
-      <input
-        ref={inputRef}
-        type = "text"
-        placeholder = "username"
-      />
-      {/*input要素をフォーカスしてる。*/}
-      <button onClick ={login}>로그인</button>
+      <MyInput/>
+
+      <InputRef/>
       <Count />
       <Ref_Var/>
       <Ref />
@@ -35,5 +20,23 @@ const App = () => {
     </div>
   );
 };
+function MyInput() {
+
+  const id = useId();//Math.random() uuid
+  const ref = useRef();
+  //reactを使う時queryselectを使うことはあまり良くない。変わりにuseRefを使う
+useEffect(()=>{
+  const element = ref.current;
+  console.log(element);
+},[])
+
+  return(
+    <div>
+      <button id ="btn">버튼</button>
+      <label htmlFor = {id}>이름</label>
+      <input id={id} ref={ref}/>
+    </div>
+  )
+}
 
 export default App;
